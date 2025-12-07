@@ -82,14 +82,15 @@ xgb_model = xgb.XGBClassifier(scale_pos_weight=class_weight, random_state=42)
 
 # Define hyperparameter grid
 param_grid = {
-    'xgbclassifier__n_estimators': [50, 75, 100, 125, 150],    # number of trees to build
-    'xgbclassifier__max_depth': [2, 3, 4],                     # maximum depth of each tree
-    'xgbclassifier__colsample_bytree': [0.4, 0.5, 0.6],        # % of features per tree
-    'xgbclassifier__colsample_bylevel': [0.4, 0.5, 0.6],       # % of features per level
-    'xgbclassifier__learning_rate': [0.01, 0.05, 0.1],         # learning rate
-    'xgbclassifier__reg_lambda': [0.4, 0.5, 0.6],              # L2 regularization factor
+    'xgbclassifier__n_estimators': [100, 150],        # Keep small to reduce training time
+    'xgbclassifier__max_depth': [3, 4],               # Your best was 3 → only test +1
+    'xgbclassifier__learning_rate': [0.05, 0.1],      # Your best was 0.1 → test slightly slower
+    'xgbclassifier__colsample_bytree': [0.6, 0.8],    # Keep your best + one stronger option
+    'xgbclassifier__colsample_bylevel': [0.6],        # Fix at old best (avoid unnecessary search)
+    'xgbclassifier__reg_lambda': [0.4, 1.0],          # Try stronger regularization too
+    'xgbclassifier__subsample': [0.8],                # Good default; fixes overfitting
+    'xgbclassifier__min_child_weight': [1, 3],        # Helps prevent overfitting
 }
-
 # Model pipeline
 model_pipeline = make_pipeline(preprocessor, xgb_model)
 

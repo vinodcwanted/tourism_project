@@ -6,7 +6,7 @@ import joblib
 # Download the model from the Model Hub
 model_path = hf_hub_download(
     repo_id="vinodcwanted/Tourism-Package-Prediction", 
-    filename="best_tourism_model.joblib"
+    filename="best_tourism_model_v1.joblib"
 )
 
 # Load the model
